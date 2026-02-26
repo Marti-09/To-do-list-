@@ -37,18 +37,17 @@
     pointer-events:none; z-index:0;
   }
 
-  /* TWO-COLUMN 16:9 LAYOUT */
   .screen {
     position:relative; z-index:1;
     width:1920px; height:1080px;
     display:grid;
-    grid-template-columns: 680px 1fr;
+    grid-template-columns:700px 1fr;
   }
 
   /* LEFT COLUMN */
   .left-col {
     display:flex; flex-direction:column;
-    padding:44px 48px 36px;
+    padding:40px 48px 32px;
     border-right:1px solid rgba(255,255,255,0.07);
     overflow:hidden;
   }
@@ -56,84 +55,93 @@
   /* RIGHT COLUMN */
   .right-col {
     display:flex; flex-direction:column;
-    padding:44px 48px 36px;
+    padding:40px 52px 32px;
     overflow:hidden;
   }
 
-  /* Clock */
-  .clock-block { margin-bottom:18px; }
-  .clock { font-family:'Bebas Neue',sans-serif; font-size:110px; line-height:1; letter-spacing:5px; }
+  /* CLOCK */
+  .clock-block { margin-bottom:16px; }
+  .clock { font-family:'Bebas Neue',sans-serif; font-size:124px; line-height:1; letter-spacing:5px; }
   .date-row { display:flex; align-items:center; gap:12px; margin-top:2px; }
-  .day-name  { font-family:'DM Mono',monospace; font-size:15px; color:var(--accent); letter-spacing:4px; text-transform:uppercase; }
-  .dot-sep   { color:rgba(255,255,255,0.2); }
-  .full-date { font-family:'DM Mono',monospace; font-size:15px; color:var(--muted); letter-spacing:2px; }
+  .day-name  { font-family:'DM Mono',monospace; font-size:18px; color:var(--accent); letter-spacing:4px; text-transform:uppercase; }
+  .dot-sep   { color:rgba(255,255,255,0.2); font-size:18px; }
+  .full-date { font-family:'DM Mono',monospace; font-size:18px; color:var(--muted); letter-spacing:2px; }
 
-  .rule { height:1px; background:linear-gradient(90deg,var(--accent) 0%,transparent 80%); opacity:0.3; margin-bottom:18px; }
+  .rule { height:1px; background:linear-gradient(90deg,var(--accent) 0%,transparent 80%); opacity:0.3; margin-bottom:16px; }
 
   /* WEATHER */
-  .weather-wrap { background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:24px 28px 20px; margin-bottom:14px; position:relative; overflow:hidden; flex-shrink:0; }
+  .weather-wrap {
+    background:var(--card); border:1px solid var(--border); border-radius:var(--r);
+    padding:26px 30px 22px; margin-bottom:14px; position:relative; overflow:hidden; flex-shrink:0;
+  }
   .weather-wrap::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),transparent); }
-  .wx-location { font-family:'DM Mono',monospace; font-size:13px; color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:10px; }
+  .wx-location { font-family:'DM Mono',monospace; font-size:15px; color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:10px; }
   .wx-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
-  .wx-temp { font-family:'Bebas Neue',sans-serif; font-size:96px; line-height:1; }
-  .wx-temp sup { font-size:40px; vertical-align:super; color:var(--muted); }
+  .wx-temp { font-family:'Bebas Neue',sans-serif; font-size:108px; line-height:1; }
+  .wx-temp sup { font-size:46px; vertical-align:super; color:var(--muted); }
   .wx-right { text-align:right; }
-  .wx-icon { font-size:68px; line-height:1; margin-bottom:4px; }
-  .wx-desc { font-size:16px; font-weight:300; color:var(--muted); text-transform:capitalize; }
+  .wx-icon  { font-size:76px; line-height:1; margin-bottom:4px; }
+  .wx-desc  { font-size:19px; font-weight:300; color:var(--muted); text-transform:capitalize; }
   .wx-pills { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
-  .wx-pill { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:10px 14px; }
-  .wx-pill-label { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
-  .wx-pill-val { font-size:19px; font-weight:500; }
+  .wx-pill  { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:11px 14px; }
+  .wx-pill-label { font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+  .wx-pill-val   { font-size:22px; font-weight:500; }
 
   /* FORECAST */
   .forecast { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; flex-shrink:0; }
-  .fc-item { background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:14px 8px; text-align:center; }
-  .fc-day  { font-family:'DM Mono',monospace; font-size:12px; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
-  .fc-icon { font-size:26px; margin-bottom:6px; }
-  .fc-hi   { font-size:18px; font-weight:600; }
-  .fc-lo   { font-size:13px; color:var(--muted); margin-top:2px; }
+  .fc-item  { background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:14px 8px; text-align:center; }
+  .fc-day   { font-family:'DM Mono',monospace; font-size:13px; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+  .fc-icon  { font-size:28px; margin-bottom:6px; }
+  .fc-hi    { font-size:20px; font-weight:600; }
+  .fc-lo    { font-size:15px; color:var(--muted); margin-top:2px; }
 
-  /* TASKS */
-  .tasks-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-shrink:0; }
-  .tasks-title  { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:4px; }
-  .tasks-badge  { font-family:'DM Mono',monospace; font-size:14px; color:var(--accent); background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.25); border-radius:100px; padding:7px 20px; }
+  /* TASKS HEADER */
+  .tasks-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-shrink:0; }
+  .tasks-title  { font-family:'Bebas Neue',sans-serif; font-size:56px; letter-spacing:4px; }
+  .tasks-badge  { font-family:'DM Mono',monospace; font-size:17px; color:var(--accent); background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.25); border-radius:100px; padding:8px 24px; }
 
-  .col-header { display:grid; grid-template-columns:6px 150px 1fr 160px; gap:20px; padding:0 24px 10px; flex-shrink:0; }
-  .col-label  { font-family:'DM Mono',monospace; font-size:12px; color:rgba(255,255,255,0.22); letter-spacing:2px; text-transform:uppercase; }
+  /* COLUMN HEADERS */
+  .col-header { display:grid; grid-template-columns:6px 170px 1fr 180px; gap:22px; padding:0 26px 10px; flex-shrink:0; }
+  .col-label  { font-family:'DM Mono',monospace; font-size:14px; color:rgba(255,255,255,0.25); letter-spacing:2px; text-transform:uppercase; }
 
-  .tasks-list { display:flex; flex-direction:column; gap:10px; overflow-y:auto; flex:1; }
+  /* TASK LIST */
+  .tasks-list { display:flex; flex-direction:column; gap:11px; overflow-y:auto; flex:1; padding-bottom:36px; }
   .tasks-list::-webkit-scrollbar { width:0; }
 
   .task-row {
-    display:grid; grid-template-columns:6px 150px 1fr 160px;
-    align-items:center; gap:20px;
+    display:grid; grid-template-columns:6px 170px 1fr 180px;
+    align-items:center; gap:22px;
     background:var(--card); border:1px solid var(--border); border-radius:var(--r);
-    padding:16px 24px; flex-shrink:0; animation:fadeUp 0.3s ease both;
+    padding:18px 26px; flex-shrink:0;
+    animation:fadeUp 0.3s ease both;
   }
   @keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
-  .p-stripe { width:5px; height:34px; border-radius:4px; }
-  .stripe-urgent{background:var(--urgent);box-shadow:0 0 8px rgba(248,113,113,0.6);}
-  .stripe-high  {background:var(--high);  box-shadow:0 0 8px rgba(251,146,60,0.5);}
-  .stripe-medium{background:var(--medium);box-shadow:0 0 8px rgba(250,204,21,0.4);}
-  .stripe-low   {background:var(--low);   box-shadow:0 0 8px rgba(74,222,128,0.4);}
+  .p-stripe { width:5px; height:40px; border-radius:4px; }
+  .stripe-urgent { background:var(--urgent); box-shadow:0 0 8px rgba(248,113,113,0.6); }
+  .stripe-high   { background:var(--high);   box-shadow:0 0 8px rgba(251,146,60,0.5); }
+  .stripe-medium { background:var(--medium); box-shadow:0 0 8px rgba(250,204,21,0.4); }
+  .stripe-low    { background:var(--low);    box-shadow:0 0 8px rgba(74,222,128,0.4); }
 
-  .p-badge { font-family:'DM Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; padding:6px 14px; border-radius:100px; text-align:center; white-space:nowrap; }
-  .badge-urgent{color:var(--urgent);background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);}
-  .badge-high  {color:var(--high);  background:rgba(251,146,60,0.1); border:1px solid rgba(251,146,60,0.3);}
-  .badge-medium{color:var(--medium);background:rgba(250,204,21,0.1); border:1px solid rgba(250,204,21,0.3);}
-  .badge-low   {color:var(--low);   background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.3);}
+  .p-badge { font-family:'DM Mono',monospace; font-size:14px; letter-spacing:1.5px; text-transform:uppercase; padding:7px 16px; border-radius:100px; text-align:center; white-space:nowrap; }
+  .badge-urgent { color:var(--urgent); background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3); }
+  .badge-high   { color:var(--high);   background:rgba(251,146,60,0.1);  border:1px solid rgba(251,146,60,0.3); }
+  .badge-medium { color:var(--medium); background:rgba(250,204,21,0.1);  border:1px solid rgba(250,204,21,0.3); }
+  .badge-low    { color:var(--low);    background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.3); }
 
-  .task-name   { font-size:19px; font-weight:500; line-height:1.3; }
-  .task-person { font-family:'DM Mono',monospace; font-size:14px; color:var(--muted); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  /* TASK NAME — 2X bigger than everything else */
+  .task-name   { font-size:38px; font-weight:500; line-height:1.2; }
+  .task-person { font-family:'DM Mono',monospace; font-size:18px; color:var(--muted); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
+  /* STATES */
   .state-box  { text-align:center; padding:40px 24px; background:var(--card); border:1px solid var(--border); border-radius:var(--r); }
-  .state-icon { font-size:44px; margin-bottom:10px; }
-  .state-text { font-size:20px; font-weight:300; color:var(--muted); }
-  .state-err  { font-size:14px; color:var(--urgent); font-family:'DM Mono',monospace; line-height:1.8; }
+  .state-icon { font-size:48px; margin-bottom:12px; }
+  .state-text { font-size:22px; font-weight:300; color:var(--muted); }
+  .state-err  { font-size:15px; color:var(--urgent); font-family:'DM Mono',monospace; line-height:1.8; }
 
-  .footer-bar { position:fixed; bottom:0; left:0; right:0; height:32px; background:rgba(10,13,18,0.96); border-top:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:space-between; padding:0 48px; z-index:10; }
-  .footer-label { font-family:'DM Mono',monospace; font-size:12px; color:rgba(255,255,255,0.18); letter-spacing:2px; }
+  /* FOOTER */
+  .footer-bar { position:fixed; bottom:0; left:0; right:0; height:34px; background:rgba(10,13,18,0.97); border-top:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:space-between; padding:0 52px; z-index:10; }
+  .footer-label { font-family:'DM Mono',monospace; font-size:13px; color:rgba(255,255,255,0.2); letter-spacing:2px; }
   .live-dot { width:8px; height:8px; background:var(--low); border-radius:50%; display:inline-block; margin-right:7px; box-shadow:0 0 6px var(--low); animation:blink 2.5s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 </style>
@@ -182,47 +190,44 @@
   <span class="footer-label" id="last-updated">—</span>
   <span class="footer-label">OFFICE DISPLAY · ROSEDALE, NY</span>
 </div>
+
 <script>
-// ╔══════════════════════════════════════════════════╗
-// ║  CHANGE YOUR CITY HERE                           ║
-// ║  Format: "City,CountryCode"                      ║
-// ║  Examples: "Chicago,US"  "Dubai,AE"  "London,GB" ║
-const MY_CITY     = 'New York,US';
-const WEATHER_KEY = '0dab77a3fb6d23a04fa8b7f64c636560';
-const UNITS       = 'imperial';  // 'imperial'=°F  or  'metric'=°C
-// ╚══════════════════════════════════════════════════╝
+// ═══════════════════════════════════════════════════════════
+//  CONFIG — do not change unless instructed
+// ═══════════════════════════════════════════════════════════
+const SHEETS_API_KEY  = 'AIzaSyD0xT8Y5gF07t14XS5KOrmR140tIXqHOVE';
+const SPREADSHEET_ID  = '1vRl19j7rWOE4G0MVPqkjqeqTxlGx_rRtlH4hE4TFvQKqwo4F4PKCGqDDaxH_a5k5AaxUKB4uHqJta8K';
+const SHEET_NAME      = 'Sheet1'; // Change if your sheet tab has a different name
+const LAT             = 40.6601;
+const LON             = -73.7421;
+const CITY_NAME       = 'Rosedale, New York';
+// ═══════════════════════════════════════════════════════════
 
-const SHEET_ID = '2PACX-1vRl19j7rWOE4G0MVPqkjqeqTxlGx_rRtlH4hE4TFvQKqwo4F4PKCGqDDaxH_a5k5AaxUKB4uHqJta8K';
-const SHEET_CSV = `https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?output=csv`;
+// ── KEEP-ALIVE: prevents Silk browser from going idle ─────
+// Simulates a tiny invisible interaction every 30 seconds
+setInterval(() => {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;';
+  document.body.appendChild(el);
+  el.getBoundingClientRect(); // forces a layout reflow — browser sees activity
+  document.body.removeChild(el);
+}, 30000);
 
-// Three independent proxies — tried in order until one works
-const PROXIES = [
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
-];
-
-// Try each proxy in sequence, return first that succeeds
-async function fetchWithFallback(url, timeoutMs = 8000) {
-  for (let i = 0; i < PROXIES.length; i++) {
-    const proxyUrl = PROXIES[i](url);
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), timeoutMs);
-      const res = await fetch(proxyUrl, { signal: controller.signal });
-      clearTimeout(timer);
-      if (res.ok) return res;
-      console.warn(`Proxy ${i+1} returned ${res.status}, trying next…`);
-    } catch(e) {
-      console.warn(`Proxy ${i+1} failed: ${e.message}, trying next…`);
-    }
+// Also use the Page Visibility API to reload if tab becomes visible after being hidden
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    loadTasks();
+    loadWeather();
   }
-  throw new Error('All proxies failed. Check your internet connection.');
-}
+});
 
-// ── CLOCK ──────────────────────────────────────────
+// Hard reload every 6 hours to keep memory clean on Fire TV
+setTimeout(() => location.reload(), 6 * 60 * 60 * 1000);
+
+// ── CLOCK ─────────────────────────────────────────────────
 const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
 function tickClock() {
   const n = new Date();
   document.getElementById('clock').textContent =
@@ -234,55 +239,50 @@ function tickClock() {
 tickClock();
 setInterval(tickClock, 1000);
 
-// ── WEATHER — Open-Meteo, no API key ──────────────
-// Rosedale, NY — zip 11422 precise coordinates
-const LAT = 40.6601, LON = -73.7421, CITY_NAME = 'Rosedale, New York';
+// ── WEATHER: Open-Meteo, no API key needed ────────────────
 function decodeWMO(code) {
-  const m = {0:['Clear Sky','☀️'],1:['Mainly Clear','🌤️'],2:['Partly Cloudy','⛅'],3:['Overcast','☁️'],
+  const m = {
+    0:['Clear Sky','☀️'],1:['Mainly Clear','🌤️'],2:['Partly Cloudy','⛅'],3:['Overcast','☁️'],
     45:['Foggy','🌫️'],48:['Freezing Fog','🌫️'],51:['Light Drizzle','🌦️'],53:['Drizzle','🌦️'],
     55:['Heavy Drizzle','🌧️'],61:['Light Rain','🌧️'],63:['Rain','🌧️'],65:['Heavy Rain','🌧️'],
     71:['Light Snow','❄️'],73:['Snow','❄️'],75:['Heavy Snow','❄️'],77:['Snow Grains','❄️'],
     80:['Light Showers','🌦️'],81:['Showers','🌧️'],82:['Heavy Showers','🌧️'],
     85:['Snow Showers','❄️'],86:['Heavy Snow Showers','❄️'],
-    95:['Thunderstorm','⛈️'],96:['Thunderstorm + Hail','⛈️'],99:['Thunderstorm + Hail','⛈️']};
+    95:['Thunderstorm','⛈️'],96:['Thunderstorm + Hail','⛈️'],99:['Thunderstorm + Hail','⛈️']
+  };
   return m[code] || ['Unknown','🌡️'];
 }
 const FC_DAYS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 
-// Check NWS for active weather alerts — free, no key, US only
 async function checkAlerts() {
   try {
     const res  = await fetch(`https://api.weather.gov/alerts/active?point=${LAT},${LON}`);
     if (!res.ok) return null;
     const data = await res.json();
     const active = (data.features || []).filter(f => f.properties && f.properties.event);
-    if (!active.length) return null;
-    // Return the most severe alert headline
-    return active[0].properties.headline || active[0].properties.event;
+    return active.length ? (active[0].properties.headline || active[0].properties.event) : null;
   } catch(e) { return null; }
 }
 
 async function loadWeather() {
   try {
     const [meteoRes, alertText] = await Promise.all([
-      fetch(`https://api.open-meteo.com/v1/forecast`
+      fetch('https://api.open-meteo.com/v1/forecast'
         + `?latitude=${LAT}&longitude=${LON}`
-        + `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code`
-        + `&daily=weather_code,temperature_2m_max,temperature_2m_min`
-        + `&temperature_unit=celsius&wind_speed_unit=kmh`
-        + `&timezone=America%2FNew_York&forecast_days=6`),
+        + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code'
+        + '&daily=weather_code,temperature_2m_max,temperature_2m_min'
+        + '&temperature_unit=fahrenheit&wind_speed_unit=mph'
+        + '&timezone=America%2FNew_York&forecast_days=6'),
       checkAlerts()
     ]);
-
     if (!meteoRes.ok) throw new Error('HTTP ' + meteoRes.status);
     const data = await meteoRes.json();
-    const cur  = data.current, day = data.daily;
+    const cur = data.current, day = data.daily;
     const [desc, icon] = decodeWMO(cur.weather_code);
 
-    // Alert banner — only shown when NWS has an active alert
     const alertHTML = alertText
-      ? `<div style="background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.35);border-radius:10px;padding:10px 16px;margin-bottom:14px;font-family:'DM Mono',monospace;font-size:13px;color:#f87171;letter-spacing:1px;">
-           <span style="font-size:16px;margin-right:8px;">⚠</span>${alertText}
+      ? `<div style="background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.35);border-radius:10px;padding:10px 16px;margin-bottom:12px;font-family:'DM Mono',monospace;font-size:14px;color:#f87171;letter-spacing:1px;">
+           <span style="margin-right:8px;">⚠</span>${alertText}
          </div>`
       : '';
 
@@ -290,16 +290,16 @@ async function loadWeather() {
       ${alertHTML}
       <div class="wx-location">📍 ${CITY_NAME}</div>
       <div class="wx-row">
-        <div class="wx-temp">${Math.round(cur.temperature_2m)}<sup>°C</sup></div>
+        <div class="wx-temp">${Math.round(cur.temperature_2m)}<sup>°F</sup></div>
         <div class="wx-right">
           <div class="wx-icon">${icon}</div>
           <div class="wx-desc">${desc}</div>
         </div>
       </div>
       <div class="wx-pills">
-        <div class="wx-pill"><div class="wx-pill-label">Feels Like</div><div class="wx-pill-val">${Math.round(cur.apparent_temperature)}°C</div></div>
+        <div class="wx-pill"><div class="wx-pill-label">Feels Like</div><div class="wx-pill-val">${Math.round(cur.apparent_temperature)}°F</div></div>
         <div class="wx-pill"><div class="wx-pill-label">Humidity</div><div class="wx-pill-val">${cur.relative_humidity_2m}%</div></div>
-        <div class="wx-pill"><div class="wx-pill-label">Wind</div><div class="wx-pill-val">${Math.round(cur.wind_speed_10m)} km/h</div></div>
+        <div class="wx-pill"><div class="wx-pill-label">Wind</div><div class="wx-pill-val">${Math.round(cur.wind_speed_10m)} mph</div></div>
       </div>`;
 
     const fcHTML = [];
@@ -322,29 +322,7 @@ async function loadWeather() {
   }
 }
 
-// ── CSV PARSER ─────────────────────────────────────
-function parseCSV(raw) {
-  const lines = raw.trim().split(/\r?\n/);
-  if (lines.length < 2) return [];
-  function splitLine(line) {
-    const cols = []; let cur = ''; let inQ = false;
-    for (const ch of line) {
-      if (ch === '"') inQ = !inQ;
-      else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
-      else cur += ch;
-    }
-    cols.push(cur.trim());
-    return cols;
-  }
-  const headers = splitLine(lines[0]).map(h => h.toLowerCase().replace(/"/g,'').trim());
-  return lines.slice(1).filter(l => l.trim()).map(l => {
-    const v = splitLine(l); const r = {};
-    headers.forEach((h,i) => { r[h] = (v[i]||'').replace(/"/g,'').trim(); });
-    return r;
-  });
-}
-
-// ── PRIORITY ───────────────────────────────────────
+// ── TASKS: Google Sheets API — direct, no proxy ───────────
 const P_ORDER = { urgent:0, high:1, medium:2, low:3 };
 function normP(raw) {
   const p = (raw||'').toLowerCase();
@@ -354,25 +332,44 @@ function normP(raw) {
   return 'low';
 }
 
-// ── TASKS ──────────────────────────────────────────
-// Google Sheets only caches for ~30 seconds internally.
-// 3 refreshes = ~90 seconds which is normal for mobile edits to propagate.
-// We refresh every 45s which is already optimal.
 const DONE_VALUES = new Set(['true','done','complete','completed','yes','1','✓','checked']);
 
 async function loadTasks() {
   try {
-    const res  = await fetchWithFallback(SHEET_CSV);
-    const text = await res.text();
-    const rows = parseCSV(text);
+    // Direct Google Sheets API call — no proxy, no caching issues
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(SHEET_NAME)}?key=${SHEETS_API_KEY}`;
+    const res  = await fetch(url);
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || 'Sheets API error ' + res.status);
+    }
+    const data   = await res.json();
+    const rows   = data.values || [];
+    if (rows.length < 2) {
+      document.getElementById('tasks-list').innerHTML =
+        `<div class="state-box"><div class="state-icon">✅</div><div class="state-text">No tasks found in sheet.</div></div>`;
+      document.getElementById('tasks-badge').textContent = '0 open';
+      return;
+    }
 
-    const pending = rows
-      .filter(r => {
-        const name   = (r['task'] || r['task name'] || r['name'] || '').trim();
-        const status = (r['status'] || '').toLowerCase();
-        return name !== '' && !DONE_VALUES.has(status);
+    // First row = headers, lowercase them
+    const headers = rows[0].map(h => (h||'').toLowerCase().trim());
+    const iStatus   = headers.indexOf('status');
+    const iTask     = headers.findIndex(h => h === 'task' || h === 'task name' || h === 'name');
+    const iPriority = headers.indexOf('priority');
+    const iCategory = headers.findIndex(h => h === 'caligari' || h === 'category' || h === 'assigned to' || h === 'assigned');
+
+    const pending = rows.slice(1)
+      .filter(row => {
+        const taskName = (row[iTask] || '').trim();
+        const status   = (row[iStatus] || '').toLowerCase().trim();
+        return taskName !== '' && !DONE_VALUES.has(status);
       })
-      .sort((a,b) => (P_ORDER[normP(a['priority'])]??9) - (P_ORDER[normP(b['priority'])]??9));
+      .sort((a, b) => {
+        const pa = normP(a[iPriority] || '');
+        const pb = normP(b[iPriority] || '');
+        return (P_ORDER[pa] ?? 9) - (P_ORDER[pb] ?? 9);
+      });
 
     document.getElementById('tasks-badge').textContent = pending.length + ' open';
 
@@ -382,13 +379,13 @@ async function loadTasks() {
       return;
     }
 
-    document.getElementById('tasks-list').innerHTML = pending.map((r, i) => {
-      const p    = normP(r['priority']);
-      const name = r['task'] || r['task name'] || r['name'] || '—';
-      const who  = r['caligari'] || r['category'] || r['assigned to'] || r['assigned'] || '';
-      return `<div class="task-row" style="animation-delay:${i*0.04}s">
+    document.getElementById('tasks-list').innerHTML = pending.map((row, i) => {
+      const p    = normP(row[iPriority] || '');
+      const name = row[iTask]     || '—';
+      const who  = (iCategory >= 0 ? row[iCategory] : '') || '';
+      return `<div class="task-row" style="animation-delay:${i * 0.03}s">
         <div class="p-stripe stripe-${p}"></div>
-        <div class="p-badge badge-${p}">${p[0].toUpperCase()+p.slice(1)}</div>
+        <div class="p-badge badge-${p}">${p[0].toUpperCase() + p.slice(1)}</div>
         <div class="task-name">${name}</div>
         <div class="task-person">${who}</div>
       </div>`;
@@ -399,19 +396,19 @@ async function loadTasks() {
       'UPDATED ' + String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
 
   } catch(e) {
-    // Don't blank out existing tasks on a failed refresh — just log it
-    console.error('Tasks refresh failed:', e.message);
+    // On failure: keep showing last known tasks, just mark as retry
+    console.error('Tasks error:', e.message);
     const n = new Date();
     document.getElementById('last-updated').textContent =
       'RETRY ' + String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
   }
 }
 
-// ── INIT ───────────────────────────────────────────
+// ── INIT + REFRESH ────────────────────────────────────────
 loadWeather();
 loadTasks();
-setInterval(loadWeather, 10 * 60 * 1000);  // every 10 min
-setInterval(loadTasks,       45 * 1000);   // every 45 sec
+setInterval(loadWeather, 10 * 60 * 1000); // weather every 10 min
+setInterval(loadTasks,       45 * 1000);  // tasks every 45 sec
 </script>
 </body>
 </html>
