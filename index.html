@@ -196,7 +196,7 @@
 //  CONFIG — do not change unless instructed
 // ═══════════════════════════════════════════════════════════
 const SHEETS_API_KEY  = 'AIzaSyD0xT8Y5gF07t14XS5KOrmR140tIXqHOVE';
-const SPREADSHEET_ID  = '1vRl19j7rWOE4G0MVPqkjqeqTxlGx_rRtlH4hE4TFvQKqwo4F4PKCGqDDaxH_a5k5AaxUKB4uHqJta8K';
+const SPREADSHEET_ID  = '10BtYmx-wtCw95YFTRaRkBYiGZRQf7VQoprN4r7tmIa4';
 const SHEET_NAME      = 'Sheet1'; // Change if your sheet tab has a different name
 const LAT             = 40.6601;
 const LON             = -73.7421;
@@ -213,13 +213,7 @@ setInterval(() => {
   document.body.removeChild(el);
 }, 30000);
 
-// Also use the Page Visibility API to reload if tab becomes visible after being hidden
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') {
-    loadTasks();
-    loadWeather();
-  }
-});
+// visibilitychange listener registered after functions are defined (see bottom of script)
 
 // Hard reload every 6 hours to keep memory clean on Fire TV
 setTimeout(() => location.reload(), 6 * 60 * 60 * 1000);
@@ -237,7 +231,8 @@ function tickClock() {
     MONTHS[n.getMonth()] + ' ' + n.getDate() + ', ' + n.getFullYear();
 }
 tickClock();
-setInterval(tickClock, 1000);
+// Align to the next second boundary so clock never lags
+setTimeout(() => { tickClock(); setInterval(tickClock, 1000); }, 1000 - (Date.now() % 1000));
 
 // ── WEATHER: Open-Meteo, no API key needed ────────────────
 function decodeWMO(code) {
@@ -396,11 +391,23 @@ async function loadTasks() {
       'UPDATED ' + String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
 
   } catch(e) {
-    // On failure: keep showing last known tasks, just mark as retry
     console.error('Tasks error:', e.message);
     const n = new Date();
     document.getElementById('last-updated').textContent =
       'RETRY ' + String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+
+    // Only show error state if tasks list is still in its initial loading state
+    const list = document.getElementById('tasks-list');
+    if (list.querySelector('.state-text')?.textContent === 'Loading tasks…') {
+      const hint = e.message.includes('Unable to parse range')
+        ? `Sheet tab name mismatch — current name is "${SHEET_NAME}". Check the tab at the bottom of your Google Sheet.`
+        : e.message;
+      list.innerHTML = `<div class="state-box">
+        <div class="state-icon">⚠️</div>
+        <div class="state-text">Could not load tasks</div>
+        <div class="state-err">${hint}</div>
+      </div>`;
+    }
   }
 }
 
@@ -409,6 +416,14 @@ loadWeather();
 loadTasks();
 setInterval(loadWeather, 10 * 60 * 1000); // weather every 10 min
 setInterval(loadTasks,       45 * 1000);  // tasks every 45 sec
+
+// Page Visibility: refresh immediately when TV wakes / tab becomes active
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    loadTasks();
+    loadWeather();
+  }
+});
 </script>
 </body>
 </html>
