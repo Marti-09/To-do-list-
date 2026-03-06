@@ -144,6 +144,20 @@
   .footer-label { font-family:'DM Mono',monospace; font-size:13px; color:rgba(255,255,255,0.2); letter-spacing:2px; }
   .live-dot { width:8px; height:8px; background:var(--low); border-radius:50%; display:inline-block; margin-right:7px; box-shadow:0 0 6px var(--low); animation:blink 2.5s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* Keep-alive pixel — drifts subtly in corner to nudge browser/OS activity */
+  .keepalive-pixel {
+    position:fixed; bottom:40px; right:8px; width:3px; height:3px;
+    border-radius:50%; background:rgba(56,189,248,0.15);
+    animation:ka-drift 8s ease-in-out infinite; z-index:5; pointer-events:none;
+  }
+  @keyframes ka-drift {
+    0%   { transform:translate(0px,0px);   opacity:0.15; }
+    25%  { transform:translate(-4px,-3px); opacity:0.25; }
+    50%  { transform:translate(-2px,-6px); opacity:0.15; }
+    75%  { transform:translate(-5px,-2px); opacity:0.2;  }
+    100% { transform:translate(0px,0px);   opacity:0.15; }
+  }
 </style>
 </head>
 <body>
@@ -185,6 +199,7 @@
 
 </div>
 
+<div class="keepalive-pixel"></div>
 <div class="footer-bar">
   <span class="footer-label"><span class="live-dot"></span>LIVE</span>
   <span class="footer-label" id="last-updated">—</span>
