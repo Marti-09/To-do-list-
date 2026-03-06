@@ -62,10 +62,10 @@
   /* CLOCK */
   .clock-block { margin-bottom:16px; }
   .clock { font-family:'Bebas Neue',sans-serif; font-size:124px; line-height:1; letter-spacing:5px; }
-  .date-row { display:flex; align-items:center; gap:12px; margin-top:2px; }
-  .day-name  { font-family:'DM Mono',monospace; font-size:18px; color:var(--accent); letter-spacing:4px; text-transform:uppercase; }
-  .dot-sep   { color:rgba(255,255,255,0.2); font-size:18px; }
-  .full-date { font-family:'DM Mono',monospace; font-size:18px; color:var(--muted); letter-spacing:2px; }
+  .date-row { display:flex; align-items:center; gap:16px; margin-top:6px; }
+  .day-name  { font-family:'DM Sans',sans-serif; font-size:38px; font-weight:500; color:var(--accent); text-transform:uppercase; }
+  .dot-sep   { color:rgba(255,255,255,0.2); font-size:38px; }
+  .full-date { font-family:'DM Sans',sans-serif; font-size:38px; font-weight:500; color:var(--muted); }
 
   .rule { height:1px; background:linear-gradient(90deg,var(--accent) 0%,transparent 80%); opacity:0.3; margin-bottom:16px; }
 
@@ -145,19 +145,6 @@
   .live-dot { width:8px; height:8px; background:var(--low); border-radius:50%; display:inline-block; margin-right:7px; box-shadow:0 0 6px var(--low); animation:blink 2.5s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* Keep-alive pixel — drifts subtly in corner to nudge browser/OS activity */
-  .keepalive-pixel {
-    position:fixed; bottom:40px; right:8px; width:3px; height:3px;
-    border-radius:50%; background:rgba(56,189,248,0.15);
-    animation:ka-drift 8s ease-in-out infinite; z-index:5; pointer-events:none;
-  }
-  @keyframes ka-drift {
-    0%   { transform:translate(0px,0px);   opacity:0.15; }
-    25%  { transform:translate(-4px,-3px); opacity:0.25; }
-    50%  { transform:translate(-2px,-6px); opacity:0.15; }
-    75%  { transform:translate(-5px,-2px); opacity:0.2;  }
-    100% { transform:translate(0px,0px);   opacity:0.15; }
-  }
 </style>
 </head>
 <body>
@@ -199,7 +186,6 @@
 
 </div>
 
-<div class="keepalive-pixel"></div>
 <div class="footer-bar">
   <span class="footer-label"><span class="live-dot"></span>LIVE</span>
   <span class="footer-label" id="last-updated">—</span>
@@ -439,6 +425,31 @@ document.addEventListener('visibilitychange', () => {
     loadWeather();
   }
 });
+
+// ── REMOTE SCROLL: Fire TV DOWN/UP scrolls only the task list ─
+(function() {
+  const SCROLL_AMOUNT = 160;
+  const taskList = document.getElementById('tasks-list');
+  const rightCol = document.querySelector('.right-col');
+  let inTaskArea = false;
+
+  rightCol.addEventListener('mouseenter', () => { inTaskArea = true; });
+  rightCol.addEventListener('mouseleave', () => { inTaskArea = false; });
+  taskList.setAttribute('tabindex', '0');
+  taskList.addEventListener('focus', () => { inTaskArea = true; });
+  taskList.addEventListener('blur',  () => { inTaskArea = false; });
+
+  document.addEventListener('keydown', (e) => {
+    if (!inTaskArea) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      taskList.scrollBy({ top: SCROLL_AMOUNT, behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      taskList.scrollBy({ top: -SCROLL_AMOUNT, behavior: 'smooth' });
+    }
+  });
+})();
 </script>
 </body>
 </html>
