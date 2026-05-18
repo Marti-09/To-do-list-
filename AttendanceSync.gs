@@ -76,7 +76,9 @@ function getAttendanceRecords(token, startDate, endDate) {
 function groupByEmployee(records) {
   const map = {};
   records.forEach(r => {
-    const name = r.emp_name || r.name || r.employee_name || ('ID-' + (r.emp_code || r.id || '?'));
+    const name = r.employee
+      ? (r.employee.first_name + ' ' + r.employee.last_name).trim()
+      : ('ID-' + (r.emp_code || r.id || '?'));
     if (!map[name]) map[name] = [];
     map[name].push(r);
   });
@@ -168,5 +170,5 @@ function toApiTime(date) {
 function formatTime(isoString) {
   if (!isoString) return '';
   const d = new Date(isoString);
-  return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  return Utilities.formatDate(d, Session.getScriptTimeZone(), 'HH:mm');
 }
