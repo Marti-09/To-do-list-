@@ -96,10 +96,14 @@ function writeToSheet(byEmployee, monday) {
   ]);
 
   const syncTime = new Date().toISOString();
+  // Employees who stay as 'IN' when tap-out is missing (no assumed hours)
+  const NO_DEFAULT_HOURS = ['mb', 'simran'];
+
   const rows = Object.keys(byEmployee).sort().map(name => {
-    const recs       = byEmployee[name];
-    let totalMins    = 0;
-    let anyHours     = false;
+    const recs        = byEmployee[name];
+    let totalMins     = 0;
+    let anyHours      = false;
+    const useDefault  = !NO_DEFAULT_HOURS.some(ex => name.toLowerCase().includes(ex));
 
     const dayCells = [0,1,2,3,4,5].map(offset => {
       const dayDate = new Date(monday);
@@ -116,7 +120,14 @@ function writeToSheet(byEmployee, monday) {
       if (!dayRecs.length) return '';
 
       const firstTap = dayRecs[0].checktime || dayRecs[0].check_time || '';
-      if (dayRecs.length < 2) return 'IN';
+      if (dayRecs.length < 2) {
+        if (useDefault) {
+          totalMins += 480;
+          anyHours   = true;
+          return '08:00-16:00';
+        }
+        return 'IN';
+      }
 
       const lastTap  = dayRecs[dayRecs.length - 1].checktime || dayRecs[dayRecs.length - 1].check_time || '';
       const inDate   = new Date(firstTap);
