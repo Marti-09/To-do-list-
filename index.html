@@ -145,6 +145,61 @@
   .live-dot { width:8px; height:8px; background:var(--low); border-radius:50%; display:inline-block; margin-right:7px; box-shadow:0 0 6px var(--low); animation:blink 2.5s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
+  /* BOTTOM NAV */
+  .nav-bar { display:flex; gap:12px; align-items:center; }
+  .nav-btn {
+    font-family:'DM Mono',monospace; font-size:12px; letter-spacing:2px;
+    color:rgba(255,255,255,0.25); background:transparent;
+    border:1px solid rgba(255,255,255,0.12); border-radius:6px;
+    padding:5px 20px; cursor:pointer; transition:color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .nav-btn:hover  { color:rgba(255,255,255,0.55); border-color:rgba(255,255,255,0.25); }
+  .nav-btn.active { color:var(--accent); border-color:var(--accent); box-shadow:0 0 8px rgba(56,189,248,0.2); }
+  .nav-btn.disabled { opacity:0.18; cursor:not-allowed; pointer-events:none; }
+
+  /* ATTENDANCE VIEW */
+  .attendance-view {
+    display:none; position:fixed;
+    top:0; left:0; right:0; bottom:34px;
+    background:var(--bg); z-index:5;
+    padding:52px 80px 24px;
+    flex-direction:column; gap:28px;
+  }
+  .attendance-view.visible { display:flex; }
+  .att-header { display:flex; align-items:baseline; justify-content:space-between; flex-shrink:0; }
+  .att-title  { font-family:'Bebas Neue',sans-serif; font-size:56px; letter-spacing:5px; color:var(--text); }
+  .att-meta   { display:flex; gap:36px; align-items:center; }
+  .att-week   { font-family:'DM Mono',monospace; font-size:16px; color:var(--muted); letter-spacing:1px; }
+  .att-sync   { font-family:'DM Mono',monospace; font-size:13px; color:rgba(255,255,255,0.2); letter-spacing:1px; }
+  .att-table-wrap { flex:1; overflow:hidden; display:flex; flex-direction:column; }
+  .att-col-header {
+    display:grid;
+    grid-template-columns:300px repeat(6,130px) 110px 150px;
+    padding:0 28px 14px;
+    border-bottom:1px solid var(--border);
+    font-family:'DM Mono',monospace; font-size:12px; letter-spacing:2px; color:var(--muted);
+    flex-shrink:0;
+  }
+  .att-row {
+    display:grid;
+    grid-template-columns:300px repeat(6,130px) 110px 150px;
+    align-items:center; padding:0 28px; height:64px;
+    border-bottom:1px solid rgba(255,255,255,0.035);
+    animation:fadeUp 0.3s ease both;
+  }
+  .att-row:nth-child(even) { background:rgba(255,255,255,0.015); }
+  .att-name    { font-size:17px; font-weight:500; letter-spacing:0.3px; }
+  .att-day-cell { font-family:'DM Mono',monospace; font-size:13px; }
+  .att-day-cell.present { color:var(--text); }
+  .att-day-cell.absent  { color:rgba(255,255,255,0.15); }
+  .att-day-cell.in-only { color:var(--medium); }
+  .att-days          { font-family:'DM Mono',monospace; font-size:16px; font-weight:600; }
+  .att-days.green    { color:var(--low);    }
+  .att-days.yellow   { color:var(--medium); }
+  .att-days.orange   { color:var(--high);   }
+  .att-days.red      { color:var(--urgent); }
+  .att-hours { font-family:'DM Mono',monospace; font-size:14px; color:var(--muted); }
+
 </style>
 </head>
 <body>
@@ -186,9 +241,35 @@
 
 </div>
 
+<!-- ATTENDANCE VIEW (full-page, shown when nav ATTENDANCE is active) -->
+<div class="attendance-view" id="attendance-view">
+  <div class="att-header">
+    <div class="att-title">ATTENDANCE</div>
+    <div class="att-meta">
+      <span class="att-week" id="att-week">—</span>
+      <span class="att-sync" id="att-sync">—</span>
+    </div>
+  </div>
+  <div class="att-table-wrap">
+    <div class="att-col-header">
+      <div>EMPLOYEE</div>
+      <div>MON</div><div>TUE</div><div>WED</div>
+      <div>THU</div><div>FRI</div><div>SAT</div>
+      <div>DAYS</div><div>HOURS</div>
+    </div>
+    <div id="att-rows">
+      <div class="state-box"><div class="state-text">Click ATTENDANCE to load.</div></div>
+    </div>
+  </div>
+</div>
+
 <div class="footer-bar">
-  <span class="footer-label"><span class="live-dot"></span>LIVE</span>
-  <span class="footer-label" id="last-updated">—</span>
+  <span class="footer-label"><span class="live-dot"></span>LIVE &nbsp;·&nbsp; <span id="last-updated">—</span></span>
+  <div class="nav-bar">
+    <button class="nav-btn active"   id="btn-weather"    onclick="showWeather()">WEATHER</button>
+    <button class="nav-btn"          id="btn-attendance" onclick="showAttendance()">ATTENDANCE</button>
+    <button class="nav-btn disabled" id="btn-maps">MAPS</button>
+  </div>
   <span class="footer-label">OFFICE DISPLAY · ROSEDALE, NY</span>
 </div>
 
@@ -201,7 +282,8 @@ const SPREADSHEET_ID  = '10BtYmx-wtCw95YFTRaRkBYiGZRQf7VQoprN4r7tmIa4';
 const SHEET_NAME      = 'Sheet1'; // Change if your sheet tab has a different name
 const LAT             = 40.6601;
 const LON             = -73.7421;
-const CITY_NAME       = 'Rosedale, New York';
+const CITY_NAME              = 'Rosedale, New York';
+const ATTENDANCE_SHEET_NAME  = 'Attendance';
 // ═══════════════════════════════════════════════════════════
 
 // ── KEEP-ALIVE: prevents Silk browser from going idle ─────
@@ -412,6 +494,100 @@ async function loadTasks() {
   }
 }
 
+// ── VIEW SWITCHER ──────────────────────────────────────────
+function showWeather() {
+  document.querySelector('.screen').style.display = 'grid';
+  document.getElementById('attendance-view').classList.remove('visible');
+  document.getElementById('btn-weather').classList.add('active');
+  document.getElementById('btn-attendance').classList.remove('active');
+}
+
+function showAttendance() {
+  document.querySelector('.screen').style.display = 'none';
+  document.getElementById('attendance-view').classList.add('visible');
+  document.getElementById('btn-attendance').classList.add('active');
+  document.getElementById('btn-weather').classList.remove('active');
+  loadAttendance();
+}
+
+function getWeekMonday() {
+  const d   = new Date();
+  const day = d.getDay();
+  const diff = (day === 0) ? -6 : 1 - day;
+  const mon = new Date(d);
+  mon.setDate(d.getDate() + diff);
+  mon.setHours(0, 0, 0, 0);
+  return mon;
+}
+
+// ── ATTENDANCE ─────────────────────────────────────────────
+async function loadAttendance() {
+  const el = document.getElementById('att-rows');
+  el.innerHTML = '<div class="state-box"><div class="state-text">Loading attendance…</div></div>';
+
+  try {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(ATTENDANCE_SHEET_NAME)}?key=${SHEETS_API_KEY}`;
+    const res  = await fetch(url);
+    if (!res.ok) throw new Error('Sheets API error ' + res.status);
+    const data = await res.json();
+    const rows = (data.values || []).slice(1);
+
+    if (!rows.length) {
+      el.innerHTML = '<div class="state-box"><div class="state-icon">📋</div><div class="state-text">No attendance data yet. Run the sync script first.</div></div>';
+      return;
+    }
+
+    const mon = getWeekMonday();
+    const sat = new Date(mon);
+    sat.setDate(sat.getDate() + 5);
+    const fmt = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    document.getElementById('att-week').textContent =
+      'Week of ' + fmt(mon) + '–' + fmt(sat) + ', ' + sat.getFullYear();
+
+    const rawSync = rows[0]?.[9] || '';
+    if (rawSync) {
+      const sd = new Date(rawSync);
+      document.getElementById('att-sync').textContent =
+        'Synced ' + sd.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) +
+        ' at '    + sd.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    el.innerHTML = rows.map((row, i) => {
+      const name        = row[0] || '—';
+      const dayCols     = [row[1]||'', row[2]||'', row[3]||'', row[4]||'', row[5]||'', row[6]||''];
+      const daysPresent = parseInt(row[7]) || 0;
+      const hoursRaw    = row[8] || '';
+
+      const daysColor =
+        daysPresent >= 5 ? 'green'  :
+        daysPresent >= 3 ? 'yellow' :
+        daysPresent >= 1 ? 'orange' : 'red';
+
+      const dayCells = dayCols.map(v => {
+        if (!v)         return `<div class="att-day-cell absent">—</div>`;
+        if (v === 'IN') return `<div class="att-day-cell in-only">IN</div>`;
+        return              `<div class="att-day-cell present">${v}</div>`;
+      }).join('');
+
+      let hoursDisplay = '—';
+      if (hoursRaw !== '' && !isNaN(parseFloat(hoursRaw))) {
+        const total = parseFloat(hoursRaw);
+        hoursDisplay = Math.floor(total) + 'h ' + String(Math.round((total % 1) * 60)).padStart(2, '0') + 'm';
+      }
+
+      return `<div class="att-row" style="animation-delay:${i * 0.04}s">
+        <div class="att-name">${name}</div>
+        ${dayCells}
+        <div class="att-days ${daysColor}">${daysPresent}/6</div>
+        <div class="att-hours">${hoursDisplay}</div>
+      </div>`;
+    }).join('');
+
+  } catch (e) {
+    el.innerHTML = `<div class="state-box"><div class="state-text">Error: ${e.message}</div></div>`;
+  }
+}
+
 // ── INIT + REFRESH ────────────────────────────────────────
 loadWeather();
 loadTasks();
@@ -423,6 +599,9 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     loadTasks();
     loadWeather();
+    if (document.getElementById('attendance-view').classList.contains('visible')) {
+      loadAttendance();
+    }
   }
 });
 
